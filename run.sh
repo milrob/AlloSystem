@@ -26,7 +26,7 @@ NPROC=$(grep --count ^processor /proc/cpuinfo 2>/dev/null || sysctl -n hw.ncpu |
 # Save one core for the gui.
 PROC_FLAG=$((NPROC - 1))
 
-if [ "$#" = 0 ]; then
+if [ "$#" -eq 0 ]; then
     echo Aborting: You must provide a source filename or a directory.
     exit 1
 fi
@@ -59,10 +59,14 @@ fi
 # Don't pass target as Make flag.
 shift
 
+if [ "$MSYSTEM" = "MINGW64" -o "$MSYSTEM" = "MINGW32" -o "$MSYSTEM" = "MSYS" ]; then
+  GENERATOR_FLAG="-GMSYS Makefiles"
+fi
+
 if [ -n "$debugger" ]; then
-  cmake . "$TARGET_FLAG" "$DBUILD_FLAG" -DRUN_IN_DEBUGGER=1 "-DALLOSYSTEM_DEBUGGER=${debugger}" -DCMAKE_BUILD_TYPE=Debug > cmake_log.txt
+  cmake "$GENERATOR_FLAG" "$TARGET_FLAG" "$DBUILD_FLAG" -DRUN_IN_DEBUGGER=1 "-DALLOSYSTEM_DEBUGGER=${debugger}" -DCMAKE_BUILD_TYPE=Debug . > cmake_log.txt
 else
-  cmake . "$TARGET_FLAG" "$DBUILD_FLAG" -DRUN_IN_DEBUGGER=0 -DCMAKE_BUILD_TYPE=Release -Wno-dev > cmake_log.txt
+  cmake "$GENERATOR_FLAG" "$TARGET_FLAG" "$DBUILD_FLAG" -DRUN_IN_DEBUGGER=0 -DCMAKE_BUILD_TYPE=Release -Wno-dev . > cmake_log.txt
 fi
 
 make $TARGET -j$PROC_FLAG $*

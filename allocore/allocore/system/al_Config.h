@@ -55,7 +55,10 @@
 
 #if defined(WIN32) || defined(__WINDOWS_MM__) || defined(WIN64)
 	#define AL_WINDOWS 1
-	#define WIN32_LEAN_AND_MEAN
+	// Don't define if using msys2/mingw-w64.
+	#if !(MSYSTEM==MINGW64 || MSYSTEM==MINGW32)
+	  #define WIN32_LEAN_AND_MEAN
+	#endif
 	#define VC_EXTRALEAN
 	#include <windows.h>
 

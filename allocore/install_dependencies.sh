@@ -100,6 +100,23 @@ elif binary_exists "port"; then
 
 	build_and_install_assimp
 
+elif binary_exists "port"; then
+	arch="$(uname -m)"
+
+	# pacman -Suy
+	# libapr1-dev libaprutil1-dev
+
+	pacman -S \
+	mingw-w64-"$arch"-cmake \
+	mingw-w64-"$arch"-portaudio \
+	mingw-w64-"$arch"-libsndfile \
+	mingw-w64-"$arch"-glew \
+	mingw-w64-"$arch"-freeglut \
+	mingw-w64-"$arch"-libusb \
+	mingw-w64-"$arch"-FreeImage \
+	mingw-w64-"$arch"-freetype \
+	mingw-w64-"$arch"-assimp
+
 elif uname | grep "MINGW"; then
 	echo 'Found MinGW / MSYS'
 	if ! binary_exists "wget"; then

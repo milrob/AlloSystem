@@ -14,8 +14,11 @@ set(BUILD_GAMMA 1 CACHE STRING "Try to build external Gamma")
 set(BUILD_GLV 1 CACHE STRING "Try to build external GLV.")
 set(BUILD_EXAMPLES 0 CACHE STRING "Build AlloSystem examples.")
 
-# Windows custom paths
-include(cmake_modules/CustomLibPaths.cmake)
+# Don't force paths if using msys2/mingw-w64.
+if(NOT ("$ENV{MSYSTEM}" STREQUAL "MINGW64" OR "$ENV{MSYSTEM}" STREQUAL "MINGW32"))
+  # Windows custom paths
+  include(cmake_modules/CustomLibPaths.cmake)
+endif(NOT ("$ENV{MSYSTEM}" STREQUAL "MINGW64" OR "$ENV{MSYSTEM}" STREQUAL "MINGW32"))
 
 # External dependencies (Gamma and GLV)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake_modules")
