@@ -100,7 +100,7 @@ elif binary_exists "port"; then
 
 	build_and_install_assimp
 
-elif binary_exists "port"; then
+elif binary_exists "pacman"; then
 	arch="$(uname -m)"
 
 	# pacman -Suy

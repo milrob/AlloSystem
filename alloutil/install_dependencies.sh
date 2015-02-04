@@ -26,6 +26,15 @@ elif binary_exists "port"; then
 	sudo port selfupdate
 	sudo port install luajit
 
+elif binary_exists "pacman"; then
+	arch="$(uname -m)"
+
+	# pacman -Suy
+	# libapr1-dev libaprutil1-dev
+
+	pacman -S \
+	mingw-w64-"$arch"-luajit-git
+
 elif uname | grep "MINGW"; then
 	echo 'Found MinGW / MSYS'
 	if ! binary_exists "wget"; then
